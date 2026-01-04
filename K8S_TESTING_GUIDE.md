@@ -16,7 +16,7 @@ Since you **can't install Docker/Kubernetes locally**, here's the process:
 
 ```powershell
 # Navigate to project
-cd "C:\Users\SuryaMurugan\Documents\kovai-llm\learning\Data Science Projects\Fraud Detection-mlops"
+cd "C:\Users\Fraud Detection-mlops"
 
 # Initialize git (if needed)
 git init
