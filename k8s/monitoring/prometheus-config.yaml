@@ -1,0 +1,68 @@
+# 7️⃣ Prometheus Configuration (the MOST important file)
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+
+    scrape_configs:
+      - job_name: "fraud-api"
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names:
+                - default
+
+        relabel_configs:
+          # Keep only pods with app=fraud-api label
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            action: keep
+            regex: fraud-api
+
+          # Keep only containers exposing port 8000
+          - source_labels: [__meta_kubernetes_pod_container_port_number]
+            action: keep
+            regex: "8000"
+
+          # Set the metrics path to /metrics
+          - target_label: __metrics_path__
+            replacement: /metrics
+
+          # Add pod name as label for better identification
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+
+          # Add namespace as label
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+
+
+# 🔍 Teaching: this file line by line
+# scrape_interval: 15s
+
+# Prometheus pulls metrics every 15 seconds.
+
+# kubernetes_sd_configs
+
+# This means:
+
+# “Ask Kubernetes API for Pods”
+
+# No hardcoded IPs.
+# No manual target list.
+
+# relabel_configs
+
+# This filters Pods:
+
+# Only Pods with label app=fraud-api
+
+# Only containers exposing port 8000
+
+
+## This is how Prometheus auto-discovers our ML API Pods.

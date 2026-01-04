@@ -1,0 +1,49 @@
+<<<<<<< HEAD
+artifact_path: file:///C:/Users/SuryaMurugan/Documents/kovai-llm/learning/Data Science
+  Projects/Fraud Detection-mlops/mlruns/1/models/m-da2e9bc6c04e46c0b45da9e727e61a71/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.5
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.0
+mlflow_version: 3.8.1
+model_id: m-da2e9bc6c04e46c0b45da9e727e61a71
+model_size_bytes: 6570
+model_uuid: m-da2e9bc6c04e46c0b45da9e727e61a71
+prompts: null
+run_id: d68e2c6350b4442f88e217726763b0f0
+utc_time_created: '2026-01-03 05:38:58.886626'
+=======
+artifact_path: file:///C:/Users/SuryaMurugan/Documents/kovai-llm/learning/Data Science
+  Projects/Fraud Detection-mlops/mlruns/1/models/m-da2e9bc6c04e46c0b45da9e727e61a71/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.5
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.0
+mlflow_version: 3.8.1
+model_id: m-da2e9bc6c04e46c0b45da9e727e61a71
+model_size_bytes: 6570
+model_uuid: m-da2e9bc6c04e46c0b45da9e727e61a71
+prompts: null
+run_id: d68e2c6350b4442f88e217726763b0f0
+utc_time_created: '2026-01-03 05:38:58.886626'
+>>>>>>> 21cd08080528db60a74ee30b6d56ce479308273a

@@ -1,0 +1,12 @@
+# 6️⃣ Create Prometheus Namespace
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+
+
+# Why?
+# Logical isolation
+# Cleaner cluster
+# Easier permissions later

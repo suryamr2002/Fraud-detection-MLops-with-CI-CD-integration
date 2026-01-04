@@ -1,0 +1,31 @@
+# Grafana Service
+# Exposes Grafana on port 3000
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+  namespace: monitoring
+  labels:
+    app: grafana
+spec:
+  type: NodePort  # Use LoadBalancer in cloud, NodePort for local/demo
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 30030  # Access via <node-ip>:30030
+      protocol: TCP
+      name: grafana
+  selector:
+    app: grafana
+
+# 🔍 Access Grafana:
+# - NodePort: http://<node-ip>:30030
+# - Port Forward: kubectl port-forward -n monitoring svc/grafana-service 3000:3000
+# - Default login: admin / admin
+
+# 🔍 Teaching:
+# NodePort: Exposes service on each node's IP at static port (30030)
+# In production: Use LoadBalancer (cloud) or Ingress
+# Access: http://<node-ip>:30030 (default credentials: admin/admin)
+

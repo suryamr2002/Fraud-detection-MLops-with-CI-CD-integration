@@ -1,0 +1,270 @@
+# Grafana Dashboard Configuration
+# Fraud Detection API Monitoring Dashboard
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-config
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  fraud-detection-dashboard.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "uid": "fraud-detection-api",
+        "title": "Fraud Detection API - Real-Time Monitoring",
+        "tags": ["fraud-detection", "ml", "api"],
+        "timezone": "browser",
+        "schemaVersion": 38,
+        "version": 1,
+        "refresh": "10s",
+        "panels": [
+          {
+            "id": 1,
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+            "type": "stat",
+            "title": "Requests per Second",
+            "targets": [
+              {
+                "expr": "rate(predictions_total[1m])",
+                "refId": "A",
+                "legendFormat": "Requests/sec"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "color": {"mode": "palette-classic"},
+                "unit": "reqps",
+                "decimals": 2
+              }
+            },
+            "options": {
+              "graphMode": "area",
+              "colorMode": "value"
+            }
+          },
+          {
+            "id": 2,
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+            "type": "stat",
+            "title": "P95 Latency",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.95, rate(prediction_latency_seconds_bucket[1m]))",
+                "refId": "A",
+                "legendFormat": "P95 Latency"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "color": {"mode": "thresholds"},
+                "unit": "s",
+                "decimals": 3,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {"value": null, "color": "green"},
+                    {"value": 0.1, "color": "yellow"},
+                    {"value": 0.5, "color": "red"}
+                  ]
+                }
+              }
+            },
+            "options": {
+              "graphMode": "area",
+              "colorMode": "value"
+            }
+          },
+          {
+            "id": 3,
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+            "type": "stat",
+            "title": "Active Pod Count",
+            "targets": [
+              {
+                "expr": "count(kube_pod_info{pod=~\"fraud-api.*\"})",
+                "refId": "A",
+                "legendFormat": "Pods"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "color": {"mode": "thresholds"},
+                "unit": "short",
+                "decimals": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {"value": null, "color": "blue"},
+                    {"value": 2, "color": "green"},
+                    {"value": 5, "color": "yellow"},
+                    {"value": 8, "color": "red"}
+                  ]
+                }
+              }
+            },
+            "options": {
+              "graphMode": "none",
+              "colorMode": "value"
+            }
+          },
+          {
+            "id": 4,
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+            "type": "graph",
+            "title": "Request Rate Over Time",
+            "targets": [
+              {
+                "expr": "rate(predictions_total[1m])",
+                "refId": "A",
+                "legendFormat": "{{pod}}"
+              }
+            ],
+            "yaxes": [
+              {
+                "label": "Requests/sec",
+                "format": "reqps"
+              },
+              {
+                "format": "short"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            }
+          },
+          {
+            "id": 5,
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+            "type": "graph",
+            "title": "Latency Distribution (P50, P95, P99)",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.50, rate(prediction_latency_seconds_bucket[1m]))",
+                "refId": "A",
+                "legendFormat": "P50"
+              },
+              {
+                "expr": "histogram_quantile(0.95, rate(prediction_latency_seconds_bucket[1m]))",
+                "refId": "B",
+                "legendFormat": "P95"
+              },
+              {
+                "expr": "histogram_quantile(0.99, rate(prediction_latency_seconds_bucket[1m]))",
+                "refId": "C",
+                "legendFormat": "P99"
+              }
+            ],
+            "yaxes": [
+              {
+                "label": "Latency (seconds)",
+                "format": "s"
+              },
+              {
+                "format": "short"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            }
+          },
+          {
+            "id": 6,
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+            "type": "graph",
+            "title": "Error Rate",
+            "targets": [
+              {
+                "expr": "rate(prediction_errors_total[1m])",
+                "refId": "A",
+                "legendFormat": "Errors/sec"
+              }
+            ],
+            "yaxes": [
+              {
+                "label": "Errors/sec",
+                "format": "reqps"
+              },
+              {
+                "format": "short"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            }
+          },
+          {
+            "id": 7,
+            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+            "type": "graph",
+            "title": "CPU Usage per Pod",
+            "targets": [
+              {
+                "expr": "rate(container_cpu_usage_seconds_total{pod=~\"fraud-api.*\"}[1m]) * 100",
+                "refId": "A",
+                "legendFormat": "{{pod}}"
+              }
+            ],
+            "yaxes": [
+              {
+                "label": "CPU %",
+                "format": "percent"
+              },
+              {
+                "format": "short"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            }
+          },
+          {
+            "id": 8,
+            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
+            "type": "graph",
+            "title": "Memory Usage per Pod",
+            "targets": [
+              {
+                "expr": "container_memory_usage_bytes{pod=~\"fraud-api.*\"} / 1024 / 1024",
+                "refId": "A",
+                "legendFormat": "{{pod}}"
+              }
+            ],
+            "yaxes": [
+              {
+                "label": "Memory (MB)",
+                "format": "mbytes"
+              },
+              {
+                "format": "short"
+              }
+            ],
+            "xaxis": {
+              "mode": "time"
+            }
+          }
+        ],
+        "time": {
+          "from": "now-15m",
+          "to": "now"
+        },
+        "timepicker": {},
+        "templating": {
+          "list": []
+        },
+        "annotations": {
+          "list": []
+        }
+      }
+    }
+
+# 🔍 Teaching:
+# This dashboard includes:
+# 1. Requests/sec (rate(predictions_total[1m]))
+# 2. P95 Latency (histogram_quantile)
+# 3. Pod Count (count(kube_pod_info))
+# Plus bonus panels: Error rate, CPU, Memory, Latency distribution
+# Auto-refreshes every 10 seconds
+

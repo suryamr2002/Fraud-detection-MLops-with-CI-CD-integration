@@ -1,0 +1,72 @@
+# Grafana Deployment for Fraud Detection Dashboard
+# Visualizes Prometheus metrics
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    app: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:10.2.0
+          ports:
+            - containerPort: 3000
+              name: grafana
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: admin
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: admin  # Change in production!
+            - name: GF_SERVER_ROOT_URL
+              value: /
+            - name: GF_INSTALL_PLUGINS
+              value: ""
+          volumeMounts:
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
+            - name: grafana-datasources
+              mountPath: /etc/grafana/provisioning/datasources
+            - name: grafana-dashboards
+              mountPath: /etc/grafana/provisioning/dashboards
+            - name: grafana-dashboard-config
+              mountPath: /var/lib/grafana/dashboards
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+      volumes:
+        - name: grafana-storage
+          emptyDir: {}
+        - name: grafana-datasources
+          configMap:
+            name: grafana-datasources
+        - name: grafana-dashboards
+          configMap:
+            name: grafana-dashboards
+        - name: grafana-dashboard-config
+          configMap:
+            name: grafana-dashboard-config
+
+# 🔍 Teaching:
+# GF_SECURITY_ADMIN_USER/PASSWORD: Default admin credentials
+# Volume mounts: 
+#   - grafana-storage: Dashboard storage (using emptyDir for now)
+#   - grafana-datasources: Auto-configure Prometheus connection
+#   - grafana-dashboards: Auto-load dashboard provisioning
+#   - grafana-dashboard-config: Our custom dashboard JSON
+

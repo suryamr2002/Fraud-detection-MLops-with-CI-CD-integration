@@ -1,0 +1,27 @@
+# Alternative: Grafana Service with LoadBalancer
+# Use this for cloud providers that support LoadBalancer (GKE, EKS, AKS, DigitalOcean)
+# This gives you a public URL automatically
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+  namespace: monitoring
+  labels:
+    app: grafana
+spec:
+  type: LoadBalancer  # Cloud providers will assign a public IP
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: grafana
+  selector:
+    app: grafana
+
+# 🔍 After deployment:
+# kubectl get svc -n monitoring grafana-service
+# Look for EXTERNAL-IP - that's your Grafana URL!
+# Access: http://<EXTERNAL-IP>:3000
+# Login: admin / admin
+

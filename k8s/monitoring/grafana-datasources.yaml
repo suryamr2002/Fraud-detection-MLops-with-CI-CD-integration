@@ -1,0 +1,24 @@
+# Grafana Datasource Configuration
+# Auto-configures Prometheus as data source
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: monitoring
+data:
+  prometheus.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-service.monitoring.svc.cluster.local:9090
+        isDefault: true
+        editable: true
+
+# 🔍 Teaching:
+# This auto-configures Prometheus as Grafana's data source
+# URL: Kubernetes service DNS (prometheus-service.monitoring.svc.cluster.local:9090)
+# No manual configuration needed in Grafana UI!
+
