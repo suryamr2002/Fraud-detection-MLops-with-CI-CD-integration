@@ -1,6 +1,5 @@
 <<<<<<< HEAD
-artifact_path: file:///C:/Users/SuryaMurugan/Documents/kovai-llm/learning/Data Science
-  Projects/Fraud Detection-mlops/mlruns/1/models/m-da2e9bc6c04e46c0b45da9e727e61a71/artifacts
+artifact_path: file:///C:/Users/Fraud Detection-mlops/mlruns/1/models/m-da2e9bc6c04e46c0b45da9e727e61a71/artifacts
 flavors:
   python_function:
     env:
@@ -23,8 +22,7 @@ prompts: null
 run_id: d68e2c6350b4442f88e217726763b0f0
 utc_time_created: '2026-01-03 05:38:58.886626'
 =======
-artifact_path: file:///C:/Users/SuryaMurugan/Documents/kovai-llm/learning/Data Science
-  Projects/Fraud Detection-mlops/mlruns/1/models/m-da2e9bc6c04e46c0b45da9e727e61a71/artifacts
+artifact_path: file:///C:/Users/Fraud Detection-mlops/mlruns/1/models/m-da2e9bc6c04e46c0b45da9e727e61a71/artifacts
 flavors:
   python_function:
     env:
