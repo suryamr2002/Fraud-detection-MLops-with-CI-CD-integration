@@ -22,8 +22,6 @@
 - [Monitoring & Observability](#-monitoring--observability)
 - [Load Testing](#-load-testing)
 - [CI/CD Pipeline](#cicd-pipeline)
-- [Screenshots](#-screenshots)
-- [Resume Highlights](#-resume-highlights)
 
 ---
 
@@ -483,6 +481,16 @@ kubectl top pods  # Requires metrics-server
 ```
 
 ---
+
+### Screenshots
+
+<img width="713" height="423" alt="image" src="https://github.com/user-attachments/assets/21524ebc-31e0-4118-92c5-52b3ecd327fe" />
+
+Stress testing sample
+
+<img width="371" height="456" alt="image" src="https://github.com/user-attachments/assets/910af978-0199-43f2-9f9d-b0d7a98a45b7" />
+
+
 
 ## 🤝 Contributing
 
